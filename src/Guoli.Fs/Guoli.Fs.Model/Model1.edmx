@@ -1,0 +1,701 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DbUpdateLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TableName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TargetId" Type="int" Nullable="false" />
+          <Property Name="OperateType" Type="int" Nullable="false" />
+          <Property Name="UpdateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DepartFiles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FileInfoId" Type="int" Nullable="false" />
+          <Property Name="FileDirectoryId" Type="int" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="IsCommon" Type="bit" Nullable="false" />
+          <Property Name="SystemUserId" Type="int" Nullable="false" />
+          <Property Name="LastModifyTime" Type="datetime" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ParentId" Type="int" Nullable="false" />
+          <Property Name="AddTime" Type="datetime" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FileDirectory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DirName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="ParentId" Type="int" Nullable="false" />
+          <Property Name="IsTopestDir" Type="bit" Nullable="false" />
+          <Property Name="IsCommon" Type="bit" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="LastModifyTime" Type="datetime" Nullable="false" />
+          <Property Name="CreatorId" Type="int" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FileInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Extension" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Size" Type="bigint" Nullable="false" />
+          <Property Name="Path" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="HashCode" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="UploadTime" Type="datetime" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OperationLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SystemUserId" Type="int" Nullable="false" />
+          <Property Name="OperationType" Type="int" Nullable="false" />
+          <Property Name="OperationTime" Type="datetime" Nullable="false" />
+          <Property Name="OperationDesc" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="TargetTableName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TargetId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PersonInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="WorkNo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Gender" Type="int" Nullable="false" />
+          <Property Name="HeadPortraitPath" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="AddTime" Type="datetime" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SystemDict">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Key" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SystemLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LogTime" Type="datetime" Nullable="false" />
+          <Property Name="Thread" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="LogLevel" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Logger" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="LogMsg" Type="nvarchar" MaxLength="4000" Nullable="false" />
+          <Property Name="Exception" Type="nvarchar" MaxLength="2000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SystemUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonInfoId" Type="int" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="UserType" Type="int" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“Bts.dbo.ViewDepartFiles”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="ViewDepartFiles">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="FileName" />
+            <PropertyRef Name="FileInfoId" />
+            <PropertyRef Name="FileDirectoryId" />
+            <PropertyRef Name="DepartmentId" />
+            <PropertyRef Name="IsCommon" />
+            <PropertyRef Name="SystemUserId" />
+            <PropertyRef Name="LastModifyTime" />
+            <PropertyRef Name="IsDeleted" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FileInfoId" Type="int" Nullable="false" />
+          <Property Name="FileDirectoryId" Type="int" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="IsCommon" Type="bit" Nullable="false" />
+          <Property Name="SystemUserId" Type="int" Nullable="false" />
+          <Property Name="LastModifyTime" Type="datetime" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="Extension" Type="varchar" MaxLength="50" />
+          <Property Name="Size" Type="bigint" />
+          <Property Name="Path" Type="varchar" MaxLength="200" />
+          <Property Name="HashCode" Type="varchar" MaxLength="100" />
+          <Property Name="UploadTime" Type="datetime" />
+          <Property Name="FileIsDeleted" Type="bit" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“Bts.dbo.ViewPersonInfo”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="ViewPersonInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="WorkNo" />
+            <PropertyRef Name="Gender" />
+            <PropertyRef Name="HeadPortraitPath" />
+            <PropertyRef Name="DepartmentId" />
+            <PropertyRef Name="AddTime" />
+            <PropertyRef Name="IsDeleted" />
+            <PropertyRef Name="Password" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="WorkNo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Gender" Type="int" Nullable="false" />
+          <Property Name="HeadPortraitPath" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="AddTime" Type="datetime" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="DepartmentName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ParentDepartmentId" Type="int" />
+          <Property Name="Username" Type="varchar" MaxLength="20" />
+          <Property Name="UserType" Type="int" />
+          <Property Name="Password" Type="varchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“Bts.dbo.ViewSystemUser”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="ViewSystemUser">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="PersonInfoId" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="Password" />
+            <PropertyRef Name="UserType" />
+            <PropertyRef Name="IsDeleted" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="PersonInfoId" Type="int" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="UserType" Type="int" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" />
+          <Property Name="WorkNo" Type="varchar" MaxLength="50" />
+          <Property Name="Gender" Type="int" />
+          <Property Name="HeadPortraitPath" Type="varchar" MaxLength="100" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="AddTime" Type="datetime" />
+          <Property Name="PersonInfoDeleted" Type="bit" />
+        </EntityType>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="DbUpdateLog" EntityType="Self.DbUpdateLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DepartFiles" EntityType="Self.DepartFiles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FileDirectory" EntityType="Self.FileDirectory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FileInfo" EntityType="Self.FileInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OperationLog" EntityType="Self.OperationLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonInfo" EntityType="Self.PersonInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemDict" EntityType="Self.SystemDict" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemLog" EntityType="Self.SystemLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemUser" EntityType="Self.SystemUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ViewDepartFiles" EntityType="Self.ViewDepartFiles" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewDepartFiles].[Id] AS [Id], 
+    [ViewDepartFiles].[FileName] AS [FileName], 
+    [ViewDepartFiles].[FileInfoId] AS [FileInfoId], 
+    [ViewDepartFiles].[FileDirectoryId] AS [FileDirectoryId], 
+    [ViewDepartFiles].[DepartmentId] AS [DepartmentId], 
+    [ViewDepartFiles].[IsCommon] AS [IsCommon], 
+    [ViewDepartFiles].[SystemUserId] AS [SystemUserId], 
+    [ViewDepartFiles].[LastModifyTime] AS [LastModifyTime], 
+    [ViewDepartFiles].[IsDeleted] AS [IsDeleted], 
+    [ViewDepartFiles].[Extension] AS [Extension], 
+    [ViewDepartFiles].[Size] AS [Size], 
+    [ViewDepartFiles].[Path] AS [Path], 
+    [ViewDepartFiles].[HashCode] AS [HashCode], 
+    [ViewDepartFiles].[UploadTime] AS [UploadTime], 
+    [ViewDepartFiles].[FileIsDeleted] AS [FileIsDeleted]
+    FROM [dbo].[ViewDepartFiles] AS [ViewDepartFiles]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewPersonInfo" EntityType="Self.ViewPersonInfo" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewPersonInfo].[Id] AS [Id], 
+    [ViewPersonInfo].[Name] AS [Name], 
+    [ViewPersonInfo].[WorkNo] AS [WorkNo], 
+    [ViewPersonInfo].[Gender] AS [Gender], 
+    [ViewPersonInfo].[HeadPortraitPath] AS [HeadPortraitPath], 
+    [ViewPersonInfo].[DepartmentId] AS [DepartmentId], 
+    [ViewPersonInfo].[AddTime] AS [AddTime], 
+    [ViewPersonInfo].[IsDeleted] AS [IsDeleted], 
+    [ViewPersonInfo].[DepartmentName] AS [DepartmentName], 
+    [ViewPersonInfo].[ParentDepartmentId] AS [ParentDepartmentId], 
+    [ViewPersonInfo].[Username] AS [Username], 
+    [ViewPersonInfo].[UserType] AS [UserType], 
+    [ViewPersonInfo].[Password] AS [Password]
+    FROM [dbo].[ViewPersonInfo] AS [ViewPersonInfo]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewSystemUser" EntityType="Self.ViewSystemUser" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewSystemUser].[Id] AS [Id], 
+    [ViewSystemUser].[PersonInfoId] AS [PersonInfoId], 
+    [ViewSystemUser].[Username] AS [Username], 
+    [ViewSystemUser].[Password] AS [Password], 
+    [ViewSystemUser].[UserType] AS [UserType], 
+    [ViewSystemUser].[IsDeleted] AS [IsDeleted], 
+    [ViewSystemUser].[Name] AS [Name], 
+    [ViewSystemUser].[WorkNo] AS [WorkNo], 
+    [ViewSystemUser].[Gender] AS [Gender], 
+    [ViewSystemUser].[HeadPortraitPath] AS [HeadPortraitPath], 
+    [ViewSystemUser].[DepartmentId] AS [DepartmentId], 
+    [ViewSystemUser].[AddTime] AS [AddTime], 
+    [ViewSystemUser].[PersonInfoDeleted] AS [PersonInfoDeleted]
+    FROM [dbo].[ViewSystemUser] AS [ViewSystemUser]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DepartFiles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FileInfoId" Type="Int32" Nullable="false" />
+          <Property Name="FileDirectoryId" Type="Int32" Nullable="false" />
+          <Property Name="SystemUserId" Type="Int32" Nullable="false" />
+          <Property Name="LastModifyTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="IsCommon" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ParentId" Type="Int32" Nullable="false" />
+          <Property Name="AddTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FileDirectory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="DirName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="ParentId" Type="Int32" Nullable="false" />
+          <Property Name="IsTopestDir" Type="Boolean" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModifyTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatorId" Type="Int32" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="IsCommon" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FileInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Extension" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Size" Type="Int64" Nullable="false" />
+          <Property Name="Path" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HashCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UploadTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PersonInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Gender" Type="Int32" Nullable="false" />
+          <Property Name="HeadPortraitPath" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="AddTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="WorkNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SystemDict">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Key" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SystemLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="LogTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LogLevel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LogMsg" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Exception" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Thread" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Logger" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SystemUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonInfoId" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserType" Type="Int32" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ViewPersonInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Gender" />
+            <PropertyRef Name="HeadPortraitPath" />
+            <PropertyRef Name="DepartmentId" />
+            <PropertyRef Name="AddTime" />
+            <PropertyRef Name="IsDeleted" />
+            <PropertyRef Name="WorkNo" />
+            <PropertyRef Name="Password" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Gender" Type="Int32" Nullable="false" />
+          <Property Name="HeadPortraitPath" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="AddTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="DepartmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParentDepartmentId" Type="Int32" />
+          <Property Name="WorkNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UserType" Type="Int32" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ViewSystemUser">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="PersonInfoId" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="Password" />
+            <PropertyRef Name="UserType" />
+            <PropertyRef Name="IsDeleted" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="PersonInfoId" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserType" Type="Int32" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="Int32" />
+          <Property Name="HeadPortraitPath" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="AddTime" Type="DateTime" Precision="3" />
+          <Property Name="PersonInfoDeleted" Type="Boolean" />
+          <Property Name="WorkNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="BtsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DepartFiles" EntityType="Self.DepartFiles" />
+          <EntitySet Name="Department" EntityType="Self.Department" />
+          <EntitySet Name="FileDirectory" EntityType="Self.FileDirectory" />
+          <EntitySet Name="FileInfo" EntityType="Self.FileInfo" />
+          <EntitySet Name="PersonInfo" EntityType="Self.PersonInfo" />
+          <EntitySet Name="SystemDict" EntityType="Self.SystemDict" />
+          <EntitySet Name="SystemLog" EntityType="Self.SystemLog" />
+          <EntitySet Name="SystemUser" EntityType="Self.SystemUser" />
+          <EntitySet Name="ViewPersonInfo" EntityType="Self.ViewPersonInfo" />
+          <EntitySet Name="ViewSystemUser" EntityType="Self.ViewSystemUser" />
+          <EntitySet Name="OperationLog" EntityType="Model.OperationLog" />
+          <EntitySet Name="ViewDepartFiles" EntityType="Model.ViewDepartFiles" />
+          <EntitySet Name="DbUpdateLog" EntityType="Model.DbUpdateLog" />
+        </EntityContainer>
+        <EntityType Name="OperationLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SystemUserId" Type="Int32" Nullable="false" />
+          <Property Name="OperationType" Type="Int32" Nullable="false" />
+          <Property Name="OperationTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OperationDesc" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="TargetTableName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TargetId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ViewDepartFiles">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="FileName" />
+            <PropertyRef Name="FileInfoId" />
+            <PropertyRef Name="FileDirectoryId" />
+            <PropertyRef Name="SystemUserId" />
+            <PropertyRef Name="LastModifyTime" />
+            <PropertyRef Name="IsDeleted" />
+            <PropertyRef Name="DepartmentId" />
+            <PropertyRef Name="IsCommon" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FileInfoId" Type="Int32" Nullable="false" />
+          <Property Name="FileDirectoryId" Type="Int32" Nullable="false" />
+          <Property Name="SystemUserId" Type="Int32" Nullable="false" />
+          <Property Name="LastModifyTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="Extension" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Size" Type="Int64" />
+          <Property Name="Path" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="UploadTime" Type="DateTime" Precision="3" />
+          <Property Name="FileIsDeleted" Type="Boolean" />
+          <Property Name="HashCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="IsCommon" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DbUpdateLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TableName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TargetId" Type="Int32" Nullable="false" />
+          <Property Name="OperateType" Type="Int32" Nullable="false" />
+          <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="BtsEntities">
+          <EntitySetMapping Name="DepartFiles">
+            <EntityTypeMapping TypeName="Model.DepartFiles">
+              <MappingFragment StoreEntitySet="DepartFiles">
+                <ScalarProperty Name="IsCommon" ColumnName="IsCommon" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FileInfoId" ColumnName="FileInfoId" />
+                <ScalarProperty Name="FileDirectoryId" ColumnName="FileDirectoryId" />
+                <ScalarProperty Name="SystemUserId" ColumnName="SystemUserId" />
+                <ScalarProperty Name="LastModifyTime" ColumnName="LastModifyTime" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Department">
+            <EntityTypeMapping TypeName="Model.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FileDirectory">
+            <EntityTypeMapping TypeName="Model.FileDirectory">
+              <MappingFragment StoreEntitySet="FileDirectory">
+                <ScalarProperty Name="IsCommon" ColumnName="IsCommon" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DirName" ColumnName="DirName" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="IsTopestDir" ColumnName="IsTopestDir" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="LastModifyTime" ColumnName="LastModifyTime" />
+                <ScalarProperty Name="CreatorId" ColumnName="CreatorId" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FileInfo">
+            <EntityTypeMapping TypeName="Model.FileInfo">
+              <MappingFragment StoreEntitySet="FileInfo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="HashCode" ColumnName="HashCode" />
+                <ScalarProperty Name="UploadTime" ColumnName="UploadTime" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonInfo">
+            <EntityTypeMapping TypeName="Model.PersonInfo">
+              <MappingFragment StoreEntitySet="PersonInfo">
+                <ScalarProperty Name="WorkNo" ColumnName="WorkNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="HeadPortraitPath" ColumnName="HeadPortraitPath" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemDict">
+            <EntityTypeMapping TypeName="Model.SystemDict">
+              <MappingFragment StoreEntitySet="SystemDict">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemLog">
+            <EntityTypeMapping TypeName="Model.SystemLog">
+              <MappingFragment StoreEntitySet="SystemLog">
+                <ScalarProperty Name="Logger" ColumnName="Logger" />
+                <ScalarProperty Name="Thread" ColumnName="Thread" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LogTime" ColumnName="LogTime" />
+                <ScalarProperty Name="LogLevel" ColumnName="LogLevel" />
+                <ScalarProperty Name="LogMsg" ColumnName="LogMsg" />
+                <ScalarProperty Name="Exception" ColumnName="Exception" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemUser">
+            <EntityTypeMapping TypeName="Model.SystemUser">
+              <MappingFragment StoreEntitySet="SystemUser">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PersonInfoId" ColumnName="PersonInfoId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewPersonInfo">
+            <EntityTypeMapping TypeName="Model.ViewPersonInfo">
+              <MappingFragment StoreEntitySet="ViewPersonInfo">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="WorkNo" ColumnName="WorkNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="HeadPortraitPath" ColumnName="HeadPortraitPath" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="ParentDepartmentId" ColumnName="ParentDepartmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewSystemUser">
+            <EntityTypeMapping TypeName="Model.ViewSystemUser">
+              <MappingFragment StoreEntitySet="ViewSystemUser">
+                <ScalarProperty Name="WorkNo" ColumnName="WorkNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PersonInfoId" ColumnName="PersonInfoId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="HeadPortraitPath" ColumnName="HeadPortraitPath" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="PersonInfoDeleted" ColumnName="PersonInfoDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OperationLog">
+            <EntityTypeMapping TypeName="Model.OperationLog">
+              <MappingFragment StoreEntitySet="OperationLog">
+                <ScalarProperty Name="TargetId" ColumnName="TargetId" />
+                <ScalarProperty Name="TargetTableName" ColumnName="TargetTableName" />
+                <ScalarProperty Name="OperationDesc" ColumnName="OperationDesc" />
+                <ScalarProperty Name="OperationTime" ColumnName="OperationTime" />
+                <ScalarProperty Name="OperationType" ColumnName="OperationType" />
+                <ScalarProperty Name="SystemUserId" ColumnName="SystemUserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewDepartFiles">
+            <EntityTypeMapping TypeName="Model.ViewDepartFiles">
+              <MappingFragment StoreEntitySet="ViewDepartFiles">
+                <ScalarProperty Name="IsCommon" ColumnName="IsCommon" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="HashCode" ColumnName="HashCode" />
+                <ScalarProperty Name="FileIsDeleted" ColumnName="FileIsDeleted" />
+                <ScalarProperty Name="UploadTime" ColumnName="UploadTime" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="LastModifyTime" ColumnName="LastModifyTime" />
+                <ScalarProperty Name="SystemUserId" ColumnName="SystemUserId" />
+                <ScalarProperty Name="FileDirectoryId" ColumnName="FileDirectoryId" />
+                <ScalarProperty Name="FileInfoId" ColumnName="FileInfoId" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DbUpdateLog">
+            <EntityTypeMapping TypeName="Model.DbUpdateLog">
+              <MappingFragment StoreEntitySet="DbUpdateLog">
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="OperateType" ColumnName="OperateType" />
+                <ScalarProperty Name="TargetId" ColumnName="TargetId" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
