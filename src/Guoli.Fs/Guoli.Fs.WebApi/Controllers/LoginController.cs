@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using Guoli.Fs.Api.Models;
 using Guoli.Fs.Bll;
@@ -19,7 +20,7 @@ namespace Guoli.Fs.WebApi.Controllers
         [AllowAnonymous]
         public ApiReturns Post(dynamic param)
         {
-            var r = Request;
+            var r = HttpContext.Current.Request;
             string account;
             string password;
 
@@ -30,7 +31,8 @@ namespace Guoli.Fs.WebApi.Controllers
             }
             catch (Exception)
             {
-                return ApiReturns.BadRequest();
+                account = r["account"];
+                password = r["password"];
             }
 
             if (string.IsNullOrEmpty(account) || string.IsNullOrEmpty(password))
