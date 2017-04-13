@@ -31,7 +31,8 @@
             :loading="isFileLoading">
 
       <!-- 文件夹 -->
-      <el-col :span="3"
+      <el-col title="双击打开"
+              :span="3"
               class="folder"
               :class="{ active: isItemSelected(item) }"
               v-for="item in currDirData.dirs"
@@ -50,7 +51,8 @@
       </el-col>
 
       <!-- 文件 -->
-      <el-col :span="3"
+      <el-col title="双击下载"
+              :span="3"
               class="folder"
               :class="{ active: isItemSelected(item) }"
               v-for="item in currDirData.files"
