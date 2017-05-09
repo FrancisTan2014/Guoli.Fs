@@ -1,8 +1,36 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2012                    */
-/* Created on:     2017/3/20 11:14:34                           */
+/* Created on:     2017/5/8 10:23:21                            */
 /*==============================================================*/
 
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('ViewSystemUser')
+            and   type = 'V')
+   drop view ViewSystemUser
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('ViewPersonInfo')
+            and   type = 'V')
+   drop view ViewPersonInfo
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('ViewDepartFiles')
+            and   type = 'V')
+   drop view ViewDepartFiles
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('DbUpdateLog')
+            and   type = 'U')
+   drop table DbUpdateLog
+go
 
 if exists (select 1
             from  sysobjects
@@ -34,9 +62,9 @@ go
 
 if exists (select 1
             from  sysobjects
-           where  id = object_id('OpertionLog')
+           where  id = object_id('OperationLog')
             and   type = 'U')
-   drop table OpertionLog
+   drop table OperationLog
 go
 
 if exists (select 1
@@ -68,6 +96,131 @@ if exists (select 1
 go
 
 /*==============================================================*/
+/* Table: DbUpdateLog                                           */
+/*==============================================================*/
+create table DbUpdateLog (
+   Id                   int                  identity,
+   TableName            varchar(50)          not null,
+   TargetId             int                  not null,
+   OperateType          int                  not null,
+   UpdateTime           datetime             not null default getdate(),
+   constraint PK_DBUPDATELOG primary key (Id)
+)
+go
+
+if exists (select 1 from  sys.extended_properties
+           where major_id = object_id('DbUpdateLog') and minor_id = 0)
+begin 
+   declare @CurrentUser sysname 
+select @CurrentUser = user_name() 
+execute sp_dropextendedproperty 'MS_Description',  
+   'user', @CurrentUser, 'table', 'DbUpdateLog' 
+ 
+end 
+
+
+select @CurrentUser = user_name() 
+execute sp_addextendedproperty 'MS_Description',  
+   '数据库更新记录表', 
+   'user', @CurrentUser, 'table', 'DbUpdateLog'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('DbUpdateLog')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Id')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'DbUpdateLog', 'column', 'Id'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '主键',
+   'user', @CurrentUser, 'table', 'DbUpdateLog', 'column', 'Id'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('DbUpdateLog')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'TableName')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'DbUpdateLog', 'column', 'TableName'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '表名',
+   'user', @CurrentUser, 'table', 'DbUpdateLog', 'column', 'TableName'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('DbUpdateLog')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'TargetId')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'DbUpdateLog', 'column', 'TargetId'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '目标Id',
+   'user', @CurrentUser, 'table', 'DbUpdateLog', 'column', 'TargetId'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('DbUpdateLog')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'OperateType')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'DbUpdateLog', 'column', 'OperateType'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '操作类型（1 插入； 2 更新； 3 删除）',
+   'user', @CurrentUser, 'table', 'DbUpdateLog', 'column', 'OperateType'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('DbUpdateLog')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'UpdateTime')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'DbUpdateLog', 'column', 'UpdateTime'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '更新时间',
+   'user', @CurrentUser, 'table', 'DbUpdateLog', 'column', 'UpdateTime'
+go
+
+/*==============================================================*/
 /* Table: DepartFiles                                           */
 /*==============================================================*/
 create table DepartFiles (
@@ -75,6 +228,8 @@ create table DepartFiles (
    FileName             nvarchar(50)         not null,
    FileInfoId           int                  not null,
    FileDirectoryId      int                  not null,
+   DepartmentId         int                  not null,
+   IsCommon             bit                  not null,
    SystemUserId         int                  not null,
    LastModifyTime       datetime             not null default getdate(),
    IsDeleted            bit                  not null default 0,
@@ -173,6 +328,44 @@ select @CurrentUser = user_name()
 execute sp_addextendedproperty 'MS_Description', 
    '部门文件目录Id，关联文件目录表主键',
    'user', @CurrentUser, 'table', 'DepartFiles', 'column', 'FileDirectoryId'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('DepartFiles')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'DepartmentId')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'DepartFiles', 'column', 'DepartmentId'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '部门Id（文件所属部门，若为公共文件则此字段为0）',
+   'user', @CurrentUser, 'table', 'DepartFiles', 'column', 'DepartmentId'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('DepartFiles')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'IsCommon')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'DepartFiles', 'column', 'IsCommon'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '是否公共文件（由超级管理员上传，并且所有人都能看到的文件）',
+   'user', @CurrentUser, 'table', 'DepartFiles', 'column', 'IsCommon'
 go
 
 if exists(select 1 from sys.extended_properties p where
@@ -361,11 +554,12 @@ go
 /* Table: FileDirectory                                         */
 /*==============================================================*/
 create table FileDirectory (
-   Id                   int                  not null,
+   Id                   int                  identity,
    DirName              nvarchar(50)         not null,
    DepartmentId         int                  not null,
    ParentId             int                  not null,
    IsTopestDir          bit                  not null,
+   IsCommon             bit                  not null,
    CreateTime           datetime             not null default getdate(),
    LastModifyTime       datetime             not null default getdate(),
    CreatorId            int                  not null,
@@ -484,6 +678,25 @@ select @CurrentUser = user_name()
 execute sp_addextendedproperty 'MS_Description', 
    '是否是顶级目录',
    'user', @CurrentUser, 'table', 'FileDirectory', 'column', 'IsTopestDir'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('FileDirectory')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'IsCommon')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'FileDirectory', 'column', 'IsCommon'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '是否公共目录（由超级管理员创建，所有人都能看到的目录）',
+   'user', @CurrentUser, 'table', 'FileDirectory', 'column', 'IsCommon'
 go
 
 if exists(select 1 from sys.extended_properties p where
@@ -728,9 +941,9 @@ execute sp_addextendedproperty 'MS_Description',
 go
 
 /*==============================================================*/
-/* Table: OpertionLog                                           */
+/* Table: OperationLog                                          */
 /*==============================================================*/
-create table OpertionLog (
+create table OperationLog (
    Id                   int                  identity,
    SystemUserId         int                  not null,
    OperationType        int                  not null,
@@ -738,17 +951,17 @@ create table OpertionLog (
    OperationDesc        nvarchar(1000)       not null,
    TargetTableName      varchar(50)          not null,
    TargetId             int                  not null,
-   constraint PK_OPERTIONLOG primary key (Id)
+   constraint PK_OPERATIONLOG primary key (Id)
 )
 go
 
 if exists (select 1 from  sys.extended_properties
-           where major_id = object_id('OpertionLog') and minor_id = 0)
+           where major_id = object_id('OperationLog') and minor_id = 0)
 begin 
    declare @CurrentUser sysname 
 select @CurrentUser = user_name() 
 execute sp_dropextendedproperty 'MS_Description',  
-   'user', @CurrentUser, 'table', 'OpertionLog' 
+   'user', @CurrentUser, 'table', 'OperationLog' 
  
 end 
 
@@ -756,18 +969,18 @@ end
 select @CurrentUser = user_name() 
 execute sp_addextendedproperty 'MS_Description',  
    '操作日志表，记录管理员在后台进行的操作日志信息', 
-   'user', @CurrentUser, 'table', 'OpertionLog'
+   'user', @CurrentUser, 'table', 'OperationLog'
 go
 
 if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('OpertionLog')
+      p.major_id = object_id('OperationLog')
   and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Id')
 )
 begin
    declare @CurrentUser sysname
 select @CurrentUser = user_name()
 execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'OpertionLog', 'column', 'Id'
+   'user', @CurrentUser, 'table', 'OperationLog', 'column', 'Id'
 
 end
 
@@ -775,18 +988,18 @@ end
 select @CurrentUser = user_name()
 execute sp_addextendedproperty 'MS_Description', 
    '主键',
-   'user', @CurrentUser, 'table', 'OpertionLog', 'column', 'Id'
+   'user', @CurrentUser, 'table', 'OperationLog', 'column', 'Id'
 go
 
 if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('OpertionLog')
+      p.major_id = object_id('OperationLog')
   and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'SystemUserId')
 )
 begin
    declare @CurrentUser sysname
 select @CurrentUser = user_name()
 execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'OpertionLog', 'column', 'SystemUserId'
+   'user', @CurrentUser, 'table', 'OperationLog', 'column', 'SystemUserId'
 
 end
 
@@ -794,18 +1007,18 @@ end
 select @CurrentUser = user_name()
 execute sp_addextendedproperty 'MS_Description', 
    '操作人Id，关联系统用户表的主键',
-   'user', @CurrentUser, 'table', 'OpertionLog', 'column', 'SystemUserId'
+   'user', @CurrentUser, 'table', 'OperationLog', 'column', 'SystemUserId'
 go
 
 if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('OpertionLog')
+      p.major_id = object_id('OperationLog')
   and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'OperationType')
 )
 begin
    declare @CurrentUser sysname
 select @CurrentUser = user_name()
 execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'OpertionLog', 'column', 'OperationType'
+   'user', @CurrentUser, 'table', 'OperationLog', 'column', 'OperationType'
 
 end
 
@@ -813,18 +1026,18 @@ end
 select @CurrentUser = user_name()
 execute sp_addextendedproperty 'MS_Description', 
    '操作类型（1 新增； 2 修改； 3 删除；）',
-   'user', @CurrentUser, 'table', 'OpertionLog', 'column', 'OperationType'
+   'user', @CurrentUser, 'table', 'OperationLog', 'column', 'OperationType'
 go
 
 if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('OpertionLog')
+      p.major_id = object_id('OperationLog')
   and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'OperationTime')
 )
 begin
    declare @CurrentUser sysname
 select @CurrentUser = user_name()
 execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'OpertionLog', 'column', 'OperationTime'
+   'user', @CurrentUser, 'table', 'OperationLog', 'column', 'OperationTime'
 
 end
 
@@ -832,18 +1045,18 @@ end
 select @CurrentUser = user_name()
 execute sp_addextendedproperty 'MS_Description', 
    '操作时间',
-   'user', @CurrentUser, 'table', 'OpertionLog', 'column', 'OperationTime'
+   'user', @CurrentUser, 'table', 'OperationLog', 'column', 'OperationTime'
 go
 
 if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('OpertionLog')
+      p.major_id = object_id('OperationLog')
   and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'OperationDesc')
 )
 begin
    declare @CurrentUser sysname
 select @CurrentUser = user_name()
 execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'OpertionLog', 'column', 'OperationDesc'
+   'user', @CurrentUser, 'table', 'OperationLog', 'column', 'OperationDesc'
 
 end
 
@@ -851,18 +1064,18 @@ end
 select @CurrentUser = user_name()
 execute sp_addextendedproperty 'MS_Description', 
    '描述信息',
-   'user', @CurrentUser, 'table', 'OpertionLog', 'column', 'OperationDesc'
+   'user', @CurrentUser, 'table', 'OperationLog', 'column', 'OperationDesc'
 go
 
 if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('OpertionLog')
+      p.major_id = object_id('OperationLog')
   and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'TargetTableName')
 )
 begin
    declare @CurrentUser sysname
 select @CurrentUser = user_name()
 execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'OpertionLog', 'column', 'TargetTableName'
+   'user', @CurrentUser, 'table', 'OperationLog', 'column', 'TargetTableName'
 
 end
 
@@ -870,18 +1083,18 @@ end
 select @CurrentUser = user_name()
 execute sp_addextendedproperty 'MS_Description', 
    '被操作表名称',
-   'user', @CurrentUser, 'table', 'OpertionLog', 'column', 'TargetTableName'
+   'user', @CurrentUser, 'table', 'OperationLog', 'column', 'TargetTableName'
 go
 
 if exists(select 1 from sys.extended_properties p where
-      p.major_id = object_id('OpertionLog')
+      p.major_id = object_id('OperationLog')
   and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'TargetId')
 )
 begin
    declare @CurrentUser sysname
 select @CurrentUser = user_name()
 execute sp_dropextendedproperty 'MS_Description', 
-   'user', @CurrentUser, 'table', 'OpertionLog', 'column', 'TargetId'
+   'user', @CurrentUser, 'table', 'OperationLog', 'column', 'TargetId'
 
 end
 
@@ -889,7 +1102,7 @@ end
 select @CurrentUser = user_name()
 execute sp_addextendedproperty 'MS_Description', 
    '被操作数据Id',
-   'user', @CurrentUser, 'table', 'OpertionLog', 'column', 'TargetId'
+   'user', @CurrentUser, 'table', 'OperationLog', 'column', 'TargetId'
 go
 
 /*==============================================================*/
@@ -898,6 +1111,7 @@ go
 create table PersonInfo (
    Id                   int                  identity,
    Name                 nvarchar(20)         not null,
+   WorkNo               varchar(50)          not null,
    Gender               int                  not null,
    HeadPortraitPath     varchar(100)         not null default '',
    DepartmentId         int                  not null,
@@ -960,6 +1174,25 @@ select @CurrentUser = user_name()
 execute sp_addextendedproperty 'MS_Description', 
    '姓名',
    'user', @CurrentUser, 'table', 'PersonInfo', 'column', 'Name'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('PersonInfo')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'WorkNo')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'PersonInfo', 'column', 'WorkNo'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '工号',
+   'user', @CurrentUser, 'table', 'PersonInfo', 'column', 'WorkNo'
 go
 
 if exists(select 1 from sys.extended_properties p where
@@ -1148,9 +1381,11 @@ go
 create table SystemLog (
    Id                   int                  not null,
    LogTime              datetime             not null default getdate(),
+   Thread               varchar(255)         not null,
    LogLevel             varchar(50)          not null,
-   LogMsg               nvarchar(max)        not null default '',
-   Exception            nvarchar(max)        not null default '',
+   Logger               varchar(255)         not null,
+   LogMsg               nvarchar(4000)       not null default '',
+   Exception            nvarchar(2000)       null default '',
    constraint PK_SYSTEMLOG primary key (Id)
 )
 go
@@ -1212,6 +1447,25 @@ go
 
 if exists(select 1 from sys.extended_properties p where
       p.major_id = object_id('SystemLog')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Thread')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'SystemLog', 'column', 'Thread'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '线程',
+   'user', @CurrentUser, 'table', 'SystemLog', 'column', 'Thread'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('SystemLog')
   and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'LogLevel')
 )
 begin
@@ -1227,6 +1481,25 @@ select @CurrentUser = user_name()
 execute sp_addextendedproperty 'MS_Description', 
    '日志级别',
    'user', @CurrentUser, 'table', 'SystemLog', 'column', 'LogLevel'
+go
+
+if exists(select 1 from sys.extended_properties p where
+      p.major_id = object_id('SystemLog')
+  and p.minor_id = (select c.column_id from sys.columns c where c.object_id = p.major_id and c.name = 'Logger')
+)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'table', 'SystemLog', 'column', 'Logger'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   'Logger',
+   'user', @CurrentUser, 'table', 'SystemLog', 'column', 'Logger'
 go
 
 if exists(select 1 from sys.extended_properties p where
@@ -1391,5 +1664,93 @@ select @CurrentUser = user_name()
 execute sp_addextendedproperty 'MS_Description', 
    '删除标识',
    'user', @CurrentUser, 'table', 'SystemUser', 'column', 'IsDeleted'
+go
+
+/*==============================================================*/
+/* View: ViewDepartFiles                                        */
+/*==============================================================*/
+create view ViewDepartFiles as
+SELECT
+D.Id,D.[FileName],D.FileInfoId,D.FileDirectoryId,D.DepartmentId,D.IsCommon,D.SystemUserId,D.LastModifyTime,D.IsDeleted,
+F.Extension,F.Size,F.[Path],F.HashCode,F.UploadTime,F.IsDeleted AS FileIsDeleted
+FROM DepartFiles D
+LEFT JOIN FileInfo F
+ON D.FileInfoId=F.Id
+go
+
+if exists (select 1 from  sys.extended_properties
+           where major_id = object_id('ViewDepartFiles') and minor_id = 0)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'view', 'ViewDepartFiles'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '部门文件视图',
+   'user', @CurrentUser, 'view', 'ViewDepartFiles'
+go
+
+/*==============================================================*/
+/* View: ViewPersonInfo                                         */
+/*==============================================================*/
+create view ViewPersonInfo as
+SELECT
+P.Id,P.[Name],P.WorkNo,P.Gender,P.HeadPortraitPath,P.DepartmentId,P.AddTime,P.IsDeleted,
+D.[Name] AS DepartmentName,D.ParentId AS ParentDepartmentId,
+S.Username,S.UserType,
+'' AS [Password]
+FROM PersonInfo P
+LEFT JOIN Department D ON P.DepartmentId=D.Id
+LEFT JOIN SystemUser S ON P.Id=S.PersonInfoId
+go
+
+if exists (select 1 from  sys.extended_properties
+           where major_id = object_id('ViewPersonInfo') and minor_id = 0)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'view', 'ViewPersonInfo'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '人员信息视图',
+   'user', @CurrentUser, 'view', 'ViewPersonInfo'
+go
+
+/*==============================================================*/
+/* View: ViewSystemUser                                         */
+/*==============================================================*/
+create view ViewSystemUser as
+SELECT
+S.Id,S.PersonInfoId,S.Username,S.[Password],S.UserType,S.IsDeleted,
+P.[Name],P.WorkNo,P.Gender,P.HeadPortraitPath,P.DepartmentId,P.AddTime,P.IsDeleted AS PersonInfoDeleted
+FROM SystemUser S
+LEFT JOIN PersonInfo P ON S.PersonInfoId=P.Id
+go
+
+if exists (select 1 from  sys.extended_properties
+           where major_id = object_id('ViewSystemUser') and minor_id = 0)
+begin
+   declare @CurrentUser sysname
+select @CurrentUser = user_name()
+execute sp_dropextendedproperty 'MS_Description', 
+   'user', @CurrentUser, 'view', 'ViewSystemUser'
+
+end
+
+
+select @CurrentUser = user_name()
+execute sp_addextendedproperty 'MS_Description', 
+   '系统用户信息视图',
+   'user', @CurrentUser, 'view', 'ViewSystemUser'
 go
 

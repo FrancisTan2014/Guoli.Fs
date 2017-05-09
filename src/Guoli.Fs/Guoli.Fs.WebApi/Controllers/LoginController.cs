@@ -46,7 +46,7 @@ namespace Guoli.Fs.WebApi.Controllers
             if (sysUser != null)
             {
                 // 登录成功，返回用户信息
-                var user = _personInfoBll.QuerySingle(sysUser.PersonInfoId);
+                var user = _personInfoBll.QuerySingle(s => s.SystemUserId == sysUser.Id);
                 var token = LoginStatus.GenerateLoginToken(sysUser.Id, sysUser.Password);
 
                 return ApiReturns.Ok(new { User = user, Token = token });

@@ -27,5 +27,6 @@ namespace Guoli.Fs.Model
     	    public string Username { get; set; }
     	    public Nullable<int> UserType { get; set; }
     	    public string Password { get; set; }
+    	    public Nullable<int> SystemUserId { get; set; }
     }
 }

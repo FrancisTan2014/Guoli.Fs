@@ -103,13 +103,13 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="LogTime" Type="datetime" Nullable="false" />
           <Property Name="Thread" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="LogLevel" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Logger" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="LogMsg" Type="nvarchar" MaxLength="4000" Nullable="false" />
-          <Property Name="Exception" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="Exception" Type="nvarchar" MaxLength="2000" />
         </EntityType>
         <EntityType Name="SystemUser">
           <Key>
@@ -123,7 +123,7 @@
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
-警告 6002: 表/视图“Bts.dbo.ViewDepartFiles”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“Guoli.Fs.dbo.ViewDepartFiles”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="ViewDepartFiles">
           <Key>
             <PropertyRef Name="Id" />
@@ -153,7 +153,7 @@
           <Property Name="FileIsDeleted" Type="bit" />
         </EntityType>
         <!--生成过程中发现错误:
-警告 6002: 表/视图“Bts.dbo.ViewPersonInfo”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“Guoli.Fs.dbo.ViewPersonInfo”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="ViewPersonInfo">
           <Key>
             <PropertyRef Name="Id" />
@@ -178,10 +178,11 @@
           <Property Name="ParentDepartmentId" Type="int" />
           <Property Name="Username" Type="varchar" MaxLength="20" />
           <Property Name="UserType" Type="int" />
+          <Property Name="SystemUserId" Type="int" />
           <Property Name="Password" Type="varchar" MaxLength="1" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
-警告 6002: 表/视图“Bts.dbo.ViewSystemUser”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+警告 6002: 表/视图“Guoli.Fs.dbo.ViewSystemUser”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="ViewSystemUser">
           <Key>
             <PropertyRef Name="Id" />
@@ -249,6 +250,7 @@
     [ViewPersonInfo].[ParentDepartmentId] AS [ParentDepartmentId], 
     [ViewPersonInfo].[Username] AS [Username], 
     [ViewPersonInfo].[UserType] AS [UserType], 
+    [ViewPersonInfo].[SystemUserId] AS [SystemUserId], 
     [ViewPersonInfo].[Password] AS [Password]
     FROM [dbo].[ViewPersonInfo] AS [ViewPersonInfo]</DefiningQuery>
           </EntitySet>
@@ -354,7 +356,7 @@
           <Property Name="LogTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="LogLevel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="LogMsg" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Exception" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Exception" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Name="Thread" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Logger" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
@@ -394,6 +396,7 @@
           <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="UserType" Type="Int32" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SystemUserId" Type="Int32" />
         </EntityType>
         <EntityType Name="ViewSystemUser">
           <Key>
@@ -595,6 +598,7 @@
           <EntitySetMapping Name="ViewPersonInfo">
             <EntityTypeMapping TypeName="Model.ViewPersonInfo">
               <MappingFragment StoreEntitySet="ViewPersonInfo">
+                <ScalarProperty Name="SystemUserId" ColumnName="SystemUserId" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserType" ColumnName="UserType" />
                 <ScalarProperty Name="Username" ColumnName="Username" />

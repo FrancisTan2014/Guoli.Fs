@@ -19,18 +19,25 @@ namespace Guoli.Fs.WebApi
         {
             base.OnActionExecuted(actionExecutedContext);
 
-            var request = actionExecutedContext.Request;
-            var sb = new StringBuilder();
-            sb.AppendLine()
-              .AppendLine($"Request Url: {request.RequestUri}")
-              .AppendLine($"Method: {request.Method}")
-              .AppendLine(
-                    $"Parameters: {JsonConvert.SerializeObject(actionExecutedContext.ActionContext.ActionArguments)}");
+            try
+            {
+                var request = actionExecutedContext.Request;
+                var sb = new StringBuilder();
+                sb.AppendLine()
+                  .AppendLine($"Request Url: {request.RequestUri}")
+                  .AppendLine($"Method: {request.Method}")
+                  .AppendLine(
+                        $"Parameters: {JsonConvert.SerializeObject(actionExecutedContext.ActionContext.ActionArguments)}");
 
-            var res = await actionExecutedContext.Response.Content.ReadAsAsync<ApiReturns>();
-            sb.AppendLine($"Response: {JsonConvert.SerializeObject(res)}");
+                var res = await actionExecutedContext.Response.Content.ReadAsAsync<ApiReturns>();
+                sb.AppendLine($"Response: {JsonConvert.SerializeObject(res)}");
 
-            _logger.Info(sb);
+                _logger.Info(sb);
+            }
+            catch (Exception)
+            {
+                // ignore
+            }
         }
     }
 }

@@ -1,8 +1,8 @@
 let config =  {
-  base: 'http://192.168.1.108:8016/api',
+  base: 'http://192.168.0.118:8016/api',
   // base: 'http://192.168.1.108:8011/api',
 
-  fileServer: 'http://192.168.1.108:8012',
+  fileServer: 'http://192.168.0.118:8012',
 
   loginTokenCookie: 'app_token',
   loginCookieExpires: 7, // 7 days

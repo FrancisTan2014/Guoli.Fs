@@ -90,7 +90,7 @@ namespace Guoli.Fs.WebApi.Controllers
             {
                 Username = viewPerson.Username,
                 Password = EncryptHelper.EncryptPassword(viewPerson.Password),
-                UserType = viewPerson.UserType.Value
+                UserType = viewPerson.UserType ?? 0
             };
 
             var success = _personBll.AddPeronAndSystemUser(person, user);
