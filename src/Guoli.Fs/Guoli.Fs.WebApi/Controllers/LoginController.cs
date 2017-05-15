@@ -16,6 +16,7 @@ namespace Guoli.Fs.WebApi.Controllers
     {
         private readonly SystemUserBll _sysUserBll = new SystemUserBll();
         private readonly ViewPersonInfoBll _personInfoBll = new ViewPersonInfoBll();
+        private readonly ViewSystemUserBll _viewSystemUserBll = new ViewSystemUserBll();
 
         [AllowAnonymous]
         public ApiReturns Post(dynamic param)
@@ -46,7 +47,7 @@ namespace Guoli.Fs.WebApi.Controllers
             if (sysUser != null)
             {
                 // 登录成功，返回用户信息
-                var user = _personInfoBll.QuerySingle(s => s.SystemUserId == sysUser.Id);
+                var user = _viewSystemUserBll.QuerySingle(sysUser.Id);
                 var token = LoginStatus.GenerateLoginToken(sysUser.Id, sysUser.Password);
 
                 return ApiReturns.Ok(new { User = user, Token = token });

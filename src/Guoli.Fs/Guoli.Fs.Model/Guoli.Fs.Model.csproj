@@ -84,6 +84,7 @@
     <Compile Include="OperationLog.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="partials\DbUpdateLog.cs" />
     <Compile Include="PersonInfo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

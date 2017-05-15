@@ -12,6 +12,7 @@ using Guoli.Fs.Model;
 using Guoli.Fs.WebApi.Models;
 using Guoli.Fs.WebApi.Utils;
 using Guoli.Utilities.Extensions;
+using Newtonsoft.Json;
 
 namespace Guoli.Fs.WebApi.Controllers
 {
@@ -54,6 +55,24 @@ namespace Guoli.Fs.WebApi.Controllers
             }
 
             return ApiReturns.Ok(new { dirs, files });
+        }
+
+        [HttpPost]
+        [Route("api/file/getupdated")]
+        public ApiReturns GetUpdated()
+        {
+            var s = HttpContext.Current.Request["ids"];
+            var ids = JsonConvert.DeserializeObject<int[]>(s);
+            var list = _departFilesBll.QueryList(d => ids.Contains(d.Id));
+            return ApiReturns.Ok(list);
+        }
+
+        [HttpGet]
+        [Route("api/file/check/{start}")]
+        public ApiReturns Check(int start)
+        {
+            var list = _fileInfoBll.QueryList(f => f.Id > start);
+            return ApiReturns.Ok(list);
         }
 
         public ApiReturns Post()
@@ -208,7 +227,8 @@ namespace Guoli.Fs.WebApi.Controllers
             }
 
             file.FileName = newName;
-            var success = _departFilesBll.Update(file);
+
+            var success = UpdateFile(file, Operation.Update);
             if (success)
             {
                 return ApiReturns.Created();
@@ -231,13 +251,41 @@ namespace Guoli.Fs.WebApi.Controllers
             }
 
             file.IsDeleted = true;
-            var success = _departFilesBll.Update(file);
+            var success = UpdateFile(file, Operation.Delete);
             if (success)
             {
                 return ApiReturns.NoContent();
             }
 
             return ApiReturns.Failed();
+        }
+
+        /// <summary>
+        /// 更新文件信息，并添加数据库更新记录
+        /// </summary>
+        /// <param name="file">待更新的文件信息</param>
+        /// <param name="operation">表示数据库操作类型（增删改）的枚举值</param>
+        /// <returns>更新成功则返回<c>true</c>，否则返回<c>false</c></returns>
+        private bool UpdateFile(DepartFiles file, Operation operation)
+        {
+            return _departFilesBll.ExecuteTranscation(() =>
+            {
+                var s = _departFilesBll.Update(file);
+                if (s)
+                {
+                    var d = new DbUpdateLog
+                    {
+                        OperateType = (int)operation,
+                        TableName = nameof(DepartFiles),
+                        TargetId = file.Id,
+                        UpdateTime = DateTime.Now
+                    };
+
+                    return _dbUpdateLogBll.Add(d).Id > 0;
+                }
+
+                return false;
+            });
         }
     }
 }

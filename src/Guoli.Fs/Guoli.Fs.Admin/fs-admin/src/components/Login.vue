@@ -59,6 +59,7 @@
                   type: 'error'
                 });
               } else {
+                console.info(data);
                 // 登录成功
                 // 将当前登录用户的信息保存到localStorage中
                 store.setLoginUser(data.User);
