@@ -13,8 +13,11 @@
       <el-button type="default"
                  v-if="currDirId !== 0 || (currDirId === 0 && isSuperAdminLogin)"
                  v-on:click="handleAddDic">{{ (isSuperAdminLogin && (currDirId === 0 || currDir.IsCommon)) ? '新建公共文件夹' : '新建文件夹' }}</el-button>
-      <el-button type="default"
+      <!--<el-button type="default"
                  v-if="currDirId !== 0 && ((currDir.IsCommon && isSuperAdminLogin) || (!currDir.IsCommon))"
+                 v-on:click="handleAddFiles">{{ (isSuperAdminLogin && currDir && currDir.IsCommon) ? '添加公共文件' : '添加文件' }}</el-button>-->
+      <el-button type="default"
+                 v-if="currDirId !== 0"
                  v-on:click="handleAddFiles">{{ (isSuperAdminLogin && currDir && currDir.IsCommon) ? '添加公共文件' : '添加文件' }}</el-button>
       <el-button type="primary"
                  v-if="selectedItem && ((selectedItem.IsCommon && isSuperAdminLogin) || (!selectedItem.IsCommon))"

@@ -1,6 +1,6 @@
 let config =  {
-  // base: 'http://192.168.0.118:8016/api',
-  base: 'http://localhost:50474/api',
+  base: 'http://192.168.0.118:8016/api',
+  // base: 'http://localhost:50474/api',
 
   fileServer: 'http://192.168.0.118:8012',
 

@@ -23,8 +23,8 @@
     data () {
       return {
         loginUser: {
-          account: 'admin',
-          password: 'guolishidai'
+          account: '',
+          password: ''
         },
 
         validator: {

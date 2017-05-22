@@ -88,7 +88,7 @@
                        width="180">
         <template scope="scope">
           <el-button size="small"
-                     @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                     @click="handleEdit(scope.$index, scope.row)">修改</el-button>
           <el-button type="danger"
                      size="small"
                      @click="handleDel(scope.$index, scope.row)">删除</el-button>
