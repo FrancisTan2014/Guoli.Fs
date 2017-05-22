@@ -109,7 +109,7 @@ namespace Guoli.Fs.WebApi.Controllers
 
             dir.DirName = newName;
             dir.LastModifyTime = DateTime.Now;
-            // 检查是否重名
+            // 检查是否重名 
             if (DirNameExists(dir))
             {
                 return ApiReturns.Exists();
