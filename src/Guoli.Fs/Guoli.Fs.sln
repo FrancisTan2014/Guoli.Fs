@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guoli.Fs.Model", "Guoli.Fs.Model\Guoli.Fs.Model.csproj", "{C2CA92BE-5F53-47EC-A519-816FDCD76D14}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guoli.Fs.Bll", "Guoli.Fs.Bll\Guoli.Fs.Bll.csproj", "{A0367ED1-2935-43D7-81E3-7669BCD44A61}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guoli.Fs.WebApi", "Guoli.Fs.WebApi\Guoli.Fs.WebApi.csproj", "{CE174969-DA37-44E8-86C7-F00762610C8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Guoli.Fs.Bll.Test", "Guoli.Fs.Bll.Test\Guoli.Fs.Bll.Test.csproj", "{4EBDA096-533E-4260-B8F4-0670E72DC5C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{CE174969-DA37-44E8-86C7-F00762610C8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE174969-DA37-44E8-86C7-F00762610C8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE174969-DA37-44E8-86C7-F00762610C8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EBDA096-533E-4260-B8F4-0670E72DC5C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EBDA096-533E-4260-B8F4-0670E72DC5C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EBDA096-533E-4260-B8F4-0670E72DC5C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EBDA096-533E-4260-B8F4-0670E72DC5C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
