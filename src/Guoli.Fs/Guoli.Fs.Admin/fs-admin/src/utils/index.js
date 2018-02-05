@@ -1,4 +1,4 @@
-let isObject = obj => typeof(obj) === 'object';
+﻿let isObject = obj => typeof(obj) === 'object';
 
 let clone = obj => {
     let res = {};
@@ -34,6 +34,9 @@ let fileIcons = {
   '.xlsx': 'fa fa-file-excel-o',
   '.mp3': 'fa fa-file-audio-o',
   '.mp4': 'fa fa-file-video-o',
+  '.avi': 'fa fa-file-video-o',
+  '.wmv': 'fa fa-file-video-o',
+  '.swf': 'fa fa-file-video-o',
   '.jpg': 'fa fa-file-image-o',
   '.jpeg': 'fa fa-file-image-o',
   '.gif': 'fa fa-file-image-o',

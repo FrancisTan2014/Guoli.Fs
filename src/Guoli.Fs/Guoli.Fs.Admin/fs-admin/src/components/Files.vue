@@ -414,6 +414,7 @@ export default {
         this.downloadFilePath = config.fileServer + data.Path;
         this.downloadFileName = data.FileName;
         let _this = this;
+        console.info(this.downloadFilePath);
         setTimeout(function() {
           _this.$refs.download.click();
         }, 50);
